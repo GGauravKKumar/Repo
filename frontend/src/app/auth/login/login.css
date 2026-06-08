@@ -1,0 +1,164 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.page {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+}
+
+.left {
+  width: 35%;
+  background: linear-gradient(160deg, #1B4332 60%, #2D6A4F);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
+.left-content {
+  color: white;
+  text-align: center;
+}
+
+.logo-box {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.left-content h1 {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  margin-bottom: 6px;
+}
+
+.sub {
+  font-size: 11px;
+  color: #D4AF37;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 24px;
+}
+
+.line {
+  width: 40px;
+  height: 3px;
+  background: #D4AF37;
+  border-radius: 2px;
+  margin: 0 auto 24px auto;
+}
+
+.desc {
+  font-size: 16px;
+  opacity: 0.85;
+  line-height: 2;
+  font-weight: 500;
+}
+
+.right {
+  flex: 1;
+  background: #F8F9FA;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-box {
+  width: 420px;
+  background: white;
+  padding: 48px;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(27, 67, 50, 0.12);
+  border: 1px solid #E2E8F0;
+  border-top: 5px solid #D4AF37;
+  border-left: 5px solid #1B4332;
+}
+
+.form-box h2 {
+  font-size: 26px;
+  font-weight: 700;
+  color: #1B4332;
+  margin-bottom: 8px;
+}
+
+.hint {
+  font-size: 13px;
+  color: #64748B;
+  margin-bottom: 32px;
+}
+
+.error {
+  background: #FEF2F2;
+  color: #DC2626;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  margin-bottom: 20px;
+  border-left: 4px solid #DC2626;
+}
+
+.field {
+  margin-bottom: 20px;
+}
+
+.field label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 8px;
+}
+
+.input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 14px;
+}
+
+.field input {
+  width: 100%;
+  padding: 13px 16px 13px 44px;
+  border: 1.5px solid #CBD5E1;
+  border-radius: 10px;
+  font-size: 14px;
+  color: #334155;
+  outline: none;
+  background: white;
+  transition: all 0.3s ease;
+}
+
+.field input:focus {
+  border-color: #1B4332;
+  box-shadow: 0 0 0 3px rgba(27, 67, 50, 0.1);
+}
+
+button[type="submit"] {
+  width: 100%;
+  padding: 14px;
+  background: #1B4332;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: all 0.3s;
+  letter-spacing: 1px;
+}
+
+button[type="submit"]:hover {
+  background: #D4AF37;
+  color: #1B4332;
+}

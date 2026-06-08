@@ -1,0 +1,239 @@
+<div class="page">
+  <div class="sidebar">
+    <div class="brand">
+      <svg width="40" height="40" viewBox="0 0 48 48" fill="none">
+        <rect width="48" height="48" rx="12" fill="#D4AF37"/>
+        <path d="M24 10L38 18V30L24 38L10 30V18L24 10Z" fill="#1B4332"/>
+        <circle cx="24" cy="24" r="5" fill="#D4AF37"/>
+      </svg>
+      <h2>ABC, Inc.</h2>
+      <p>Training Management System</p>
+    </div>
+    <nav>
+      <ul>
+        <li (click)="navigate('dashboard')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+            <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+          </svg>
+          Dashboard
+        </li>
+        <li (click)="navigate('courses')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          </svg>
+          Courses
+        </li>
+        <li (click)="navigate('batches')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+          Batches
+        </li>
+        <li class="active">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+          Users
+        </li>
+        <li (click)="navigate('reports')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="20" x2="18" y2="10"/>
+            <line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+          Reports
+        </li>
+      </ul>
+    </nav>
+    <div class="logout" (click)="logout()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+        <polyline points="16 17 21 12 16 7"/>
+        <line x1="21" y1="12" x2="9" y2="12"/>
+      </svg>
+      Logout
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="header">
+      <div class="header-left">
+        <h3>User Management</h3>
+        <p>Manage all system users and roles</p>
+      </div>
+      <div class="header-right">
+        <button class="add-btn" (click)="openAdd()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="5" x2="12" y2="19"/>
+            <line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+          Add User
+        </button>
+        <div class="admin-badge">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+          {{ adminName }}
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="showForm" class="modal-overlay">
+      <div class="form-box" (keydown.enter)="save()">
+        <h4>{{ isEdit ? 'Edit User' : 'Add New User' }}</h4>
+        <div class="form-grid">
+          <div class="field">
+            <label>Employee ID</label>
+            <input type="text" [(ngModel)]="form.empId" placeholder="EMP-0001" />
+          </div>
+          <div class="field">
+            <label>Name</label>
+            <input type="text" [(ngModel)]="form.name" placeholder="Enter user name" />
+          </div>
+          <div class="field">
+            <label>Email</label>
+            <input type="email" [(ngModel)]="form.email" placeholder="Enter user email" />
+          </div>
+          <div class="field" *ngIf="!isEdit">
+            <label>Password</label>
+            <input type="password" [(ngModel)]="form.password" placeholder="Enter password" />
+          </div>
+          <div class="field">
+            <label>Role</label>
+            <select [(ngModel)]="form.role">
+              <option value="employee">Employee</option>
+              <option value="manager">Manager</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Department</label>
+            <select [(ngModel)]="form.department">
+              <option value="">Select department</option>
+              <option value="IT">IT</option>
+              <option value="HR">HR</option>
+              <option value="Finance">Finance</option>
+              <option value="Marketing">Marketing</option>
+              <option value="Operations">Operations</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Gender</label>
+            <select [(ngModel)]="form.gender">
+              <option value="">Select gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Age</label>
+            <input type="number" [(ngModel)]="form.age" placeholder="Enter age" />
+          </div>
+          <div class="field">
+            <label>Date of Joining</label>
+            <input type="date" [(ngModel)]="form.dateOfJoining" />
+          </div>
+          <div class="field">
+            <label>Years in Company</label>
+            <input type="text" [value]="yearsInCompany !== null ? yearsInCompany + ' years' : ''" disabled style="background:#f1f5f9; cursor:not-allowed;" />
+          </div>
+          <div class="field">
+            <label>Current Posting Location</label>
+            <input type="text" [(ngModel)]="form.currentPostingLocation" placeholder="Enter location" />
+          </div>
+          <div class="field">
+            <label>Date of Current Posting</label>
+            <input type="date" [(ngModel)]="form.dateOfCurrentPosting" />
+          </div>
+          <div class="field">
+            <label>Years at Current Posting</label>
+            <input type="text" [value]="yearsAtPosting !== null ? yearsAtPosting + ' years' : ''" disabled style="background:#f1f5f9; cursor:not-allowed;" />
+          </div>
+        </div>
+        <div class="form-actions">
+          <button class="save-btn" (click)="save()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+            {{ isEdit ? 'Update' : 'Save' }}
+          </button>
+          <button class="cancel-btn" (click)="showForm = false">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="cards-row">
+      <div class="section-card" (click)="toggleList()">
+        <div class="stat-icon green">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1B4332" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <div class="stat-info">
+          <p>Total Users</p>
+          <h2>{{ users.length }}</h2>
+        </div>
+        <span class="card-arrow">{{ showList ? '▲' : '▼' }}</span>
+      </div>
+    </div>
+
+    <div class="table-box" *ngIf="showList">
+      <div class="card-header">
+        <div class="card-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1B4332" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+          <h4>All Users</h4>
+        </div>
+        <span class="badge">{{ users.length }} Users</span>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Emp ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td><strong style="color:#1B4332;">{{ user.empId || 'N/A' }}</strong></td>
+            <td><strong>{{ user.name }}</strong></td>
+            <td>{{ user.email }}</td>
+            <td>
+              <span [class]="'badge-' + user.role">
+                {{ user.role | titlecase }}
+              </span>
+            </td>
+            <td>
+              <ng-container *ngIf="user.role !== 'admin'">
+                <button class="edit-btn" (click)="$event.stopPropagation(); openEdit(user)">Edit</button>
+                <button class="del-btn" (click)="$event.stopPropagation(); delete(user._id)">Delete</button>
+              </ng-container>
+              <span *ngIf="user.role === 'admin'" style="color: #64748B; font-size: 12px; font-weight: 600;">Fixed Account</span>
+            </td>
+          </tr>
+          <tr *ngIf="users.length === 0">
+            <td colspan="6" class="empty">No users added yet</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,211 @@
+<div class="page">
+  <div class="sidebar">
+    <div class="brand">
+      <svg width="40" height="40" viewBox="0 0 48 48" fill="none">
+        <rect width="48" height="48" rx="12" fill="#D4AF37"/>
+        <path d="M24 10L38 18V30L24 38L10 30V18L24 10Z" fill="#1B4332"/>
+        <circle cx="24" cy="24" r="5" fill="#D4AF37"/>
+      </svg>
+      <h2>ABC, Inc.</h2>
+      <p>Training Management System</p>
+    </div>
+    <nav>
+      <ul>
+        <li (click)="navigate('dashboard')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+            <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+          </svg>
+          Dashboard
+        </li>
+        <li (click)="navigate('courses')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          </svg>
+          Courses
+        </li>
+        <li (click)="navigate('batches')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+          Batches
+        </li>
+        <li (click)="navigate('users')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+          Users
+        </li>
+        <li class="active">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="20" x2="18" y2="10"/>
+            <line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+          Reports
+        </li>
+      </ul>
+    </nav>
+    <div class="logout" (click)="logout()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+        <polyline points="16 17 21 12 16 7"/>
+        <line x1="21" y1="12" x2="9" y2="12"/>
+      </svg>
+      Logout
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="header">
+      <div class="header-left">
+        <h3>System Reports</h3>
+        <p>View Course Calendar and Enrolment Statuses</p>
+      </div>
+      <div class="header-right">
+        <div class="admin-badge">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+          {{ adminName }}
+        </div>
+      </div>
+    </div>
+
+    <!-- View Reports Navigation -->
+    <div style="margin: 0 32px 16px 32px;">
+      <h4 style="color: #1B4332; font-weight: 800; font-size: 16px; margin-bottom: 12px; text-transform: uppercase;">View Reports</h4>
+    </div>
+    <div class="reports-nav">
+      <button class="report-btn" [class.active]="activeReport === 'dashboard'" (click)="setActiveReport('dashboard')">Dashboard Stats</button>
+      <button class="report-btn" [class.active]="activeReport === 'calendar'" (click)="setActiveReport('calendar')">Course Calendar</button>
+      <button class="report-btn" [class.active]="activeReport === 'participant-request'" (click)="setActiveReport('participant-request')">Participant Request for Enrolment</button>
+      <button class="report-btn" [class.active]="activeReport === 'requested'" (click)="setActiveReport('requested')">Requested for Enrolment</button>
+      <button class="report-btn" [class.active]="activeReport === 'not-approved'" (click)="setActiveReport('not-approved')">Requested but Not Approved</button>
+      <button class="report-btn" [class.active]="activeReport === 'pending'" (click)="setActiveReport('pending')">Requested but Pending</button>
+      <button class="report-btn" [class.active]="activeReport === 'feedback'" (click)="setActiveReport('feedback')">Feedback Reports</button>
+    </div>
+
+    <!-- Dashboard Stats -->
+    <div class="cards-row" *ngIf="activeReport === 'dashboard'">
+      <div class="stat-square-card">
+        <p>Requested Enrolments</p>
+        <h2>{{ stats.requested }}</h2>
+      </div>
+      <div class="stat-square-card">
+        <p>Pending with Manager</p>
+        <h2>{{ stats.pending }}</h2>
+      </div>
+      <div class="stat-square-card">
+        <p>Not Approved</p>
+        <h2>{{ stats.rejected }}</h2>
+      </div>
+      <div class="stat-square-card">
+        <p>Approved</p>
+        <h2>{{ stats.approved }}</h2>
+      </div>
+      <div class="stat-square-card">
+        <p>Total Feedbacks</p>
+        <h2>{{ feedbacks.length }}</h2>
+      </div>
+    </div>
+
+    <!-- Calendar Section -->
+    <div class="calendar-section" *ngIf="activeReport === 'calendar'">
+      <div class="cal-header">
+        <span>{{ currentMonth }}</span>
+      </div>
+      <div class="cal-grid">
+        <div class="cal-day-name" *ngFor="let d of dayNames">{{ d }}</div>
+        <div class="cal-day" *ngFor="let d of calendarDays"
+          [class.empty-day]="d === 0"
+          [class.today]="d === todayDate">
+          <div class="date-num" *ngIf="d !== 0">{{ d }}</div>
+          <div class="events-container" *ngIf="d !== 0">
+            <div class="event-badge" *ngFor="let b of getBatchesForDate(d)" title="{{ b.course?.name || 'Course' }} - {{ b.name }}">
+              <span class="event-course">{{ b.course?.name || 'Course' }}</span>
+              <span class="event-batch">{{ b.name }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Enrolments Table Section -->
+    <div class="table-box" *ngIf="activeReport === 'participant-request' || activeReport === 'requested' || activeReport === 'not-approved' || activeReport === 'pending'">
+      <div class="card-header">
+        <div class="card-title">
+          <h4>{{ getReportTitle() }}</h4>
+        </div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Employee</th>
+            <th>Batch Name</th>
+            <th>Course</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let e of filteredEnrolments; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td><strong>{{ e.employee?.name || 'Unknown' }}</strong></td>
+            <td>{{ e.batch?.name || 'Unknown' }}</td>
+            <td>{{ e.batch?.course?.name || 'Unknown' }}</td>
+            <td>
+              <span [class]="'badge-' + e.status">
+                {{ e.status | titlecase }}
+              </span>
+            </td>
+            <td>
+              <button *ngIf="e.status === 'requested' || e.status === 'pending'" class="edit-btn" style="background:#1B4332;color:white;margin-right:8px;" (click)="updateEnrolmentStatus(e._id, 'approved')">Accept</button>
+              <button *ngIf="e.status === 'requested' || e.status === 'pending'" class="del-btn" (click)="updateEnrolmentStatus(e._id, 'rejected')">Reject</button>
+            </td>
+          </tr>
+          <tr *ngIf="filteredEnrolments.length === 0">
+            <td colspan="6" class="empty">No enrolment requests found for this status</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Feedback Table Section -->
+    <div class="table-box" *ngIf="activeReport === 'feedback'">
+      <div class="card-header">
+        <div class="card-title">
+          <h4>Feedback Data</h4>
+        </div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Employee</th>
+            <th>Batch Name</th>
+            <th>Feedback Comments</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let f of feedbacks; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td><strong>{{ f.employee?.name || 'Unknown' }}</strong></td>
+            <td>{{ f.batch?.name || 'Unknown' }}</td>
+            <td>{{ f.comments }}</td>
+          </tr>
+          <tr *ngIf="feedbacks.length === 0">
+            <td colspan="4" class="empty">No feedback received yet</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

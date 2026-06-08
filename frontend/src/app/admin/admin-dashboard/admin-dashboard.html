@@ -1,0 +1,131 @@
+<div class="page">
+  <div class="sidebar">
+    <div class="brand">
+      <svg width="40" height="40" viewBox="0 0 48 48" fill="none">
+        <rect width="48" height="48" rx="12" fill="#D4AF37"/>
+        <path d="M24 10L38 18V30L24 38L10 30V18L24 10Z" fill="#1B4332"/>
+        <circle cx="24" cy="24" r="5" fill="#D4AF37"/>
+      </svg>
+      <h2>ABC, Inc.</h2>
+      <p>Training Management System</p>
+    </div>
+    <nav>
+      <ul>
+        <li class="active">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+            <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+          </svg>
+          Dashboard
+        </li>
+        <li (click)="navigate('courses')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          </svg>
+          Courses
+        </li>
+        <li (click)="navigate('batches')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+          Batches
+        </li>
+        <li (click)="navigate('users')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+          Users
+        </li>
+        <li (click)="navigate('reports')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="20" x2="18" y2="10"/>
+            <line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+          Reports
+        </li>
+      </ul>
+    </nav>
+    <div class="logout" (click)="logout()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+        <polyline points="16 17 21 12 16 7"/>
+        <line x1="21" y1="12" x2="9" y2="12"/>
+      </svg>
+      Logout
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="header">
+      <div class="header-left">
+        <h3>Dashboard</h3>
+        <p>Overview of training activities</p>
+      </div>
+      <div class="admin-badge">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+        {{ adminName }}
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat-card" (click)="navigate('courses')">
+        <div class="stat-icon green">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1B4332" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          </svg>
+        </div>
+        <div class="stat-info">
+          <p>Total Courses</p>
+          <h2>{{ totalCourses }}</h2>
+        </div>
+      </div>
+      <div class="stat-card" (click)="navigate('batches')">
+        <div class="stat-icon gold">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#92400e" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <div class="stat-info">
+          <p>Active Batches</p>
+          <h2>{{ totalBatches }}</h2>
+        </div>
+      </div>
+      <div class="stat-card" (click)="navigate('users')">
+        <div class="stat-icon light">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1B4332" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+        </div>
+        <div class="stat-info">
+          <p>Total Users</p>
+          <h2>{{ totalUsers }}</h2>
+        </div>
+      </div>
+      <div class="stat-card" (click)="navigate('reports')">
+        <div class="stat-icon gold2">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#92400e" stroke-width="2">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+          </svg>
+        </div>
+        <div class="stat-info">
+          <p>Pending Enrolments</p>
+          <h2>{{ totalEnrolments }}</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,47 @@
+<div class="page">
+  <div class="left">
+    <div class="left-content">
+      <div class="logo-box">
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+          <rect width="48" height="48" rx="12" fill="#D4AF37"/>
+          <path d="M24 10L38 18V30L24 38L10 30V18L24 10Z" fill="#1B4332"/>
+          <circle cx="24" cy="24" r="5" fill="#D4AF37"/>
+        </svg>
+      </div>
+      <h1>ABC, Inc.</h1>
+      <p class="sub">Training Management System</p>
+      <div class="line"></div>
+      <p class="desc">Empower Learning.<br/>Enhance Skills.<br/>Achieve More.</p>
+    </div>
+  </div>
+  <div class="right">
+    <div class="form-box">
+      <h2>Welcome Back! 👋</h2>
+      <p class="hint">Please sign in to continue</p>
+      <div *ngIf="error" class="error">{{ error }}</div>
+      <form (ngSubmit)="onLogin()">
+        <div class="field">
+          <label>Email Address</label>
+          <div class="input-wrap">
+            <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            <input type="email" [(ngModel)]="email" name="email" placeholder="Enter your email" />
+          </div>
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <div class="input-wrap">
+            <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            <input type="password" [(ngModel)]="password" name="password" placeholder="Enter your password" />
+          </div>
+        </div>
+        <button type="submit">Sign In</button>
+      </form>
+    </div>
+  </div>
+</div>

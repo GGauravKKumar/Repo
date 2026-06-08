@@ -1,0 +1,190 @@
+<div class="page">
+  <div class="sidebar">
+    <div class="brand">
+      <svg width="40" height="40" viewBox="0 0 48 48" fill="none">
+        <rect width="48" height="48" rx="12" fill="#D4AF37"/>
+        <path d="M24 10L38 18V30L24 38L10 30V18L24 10Z" fill="#1B4332"/>
+        <circle cx="24" cy="24" r="5" fill="#D4AF37"/>
+      </svg>
+      <h2>ABC, Inc.</h2>
+      <p>Training Management System</p>
+    </div>
+    <nav>
+      <ul>
+        <li [class.active]="currentView === 'dashboard'" (click)="setView('dashboard')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+            <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+          </svg>
+          Dashboard
+        </li>
+        <li [class.active]="currentView === 'batches'" (click)="setView('batches')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+          Available Batches
+        </li>
+        <li [class.active]="currentView === 'calendar'" (click)="setView('calendar')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/>
+            <line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+          Course Calendar
+        </li>
+        <li [class.active]="currentView === 'my-enrolments'" (click)="setView('my-enrolments')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+          My Enrolments
+        </li>
+        <li [class.active]="currentView === 'feedback'" (click)="setView('feedback')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+          Feedback
+        </li>
+      </ul>
+    </nav>
+    <div class="logout" (click)="logout()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+        <polyline points="16 17 21 12 16 7"/>
+        <line x1="21" y1="12" x2="9" y2="12"/>
+      </svg>
+      Logout
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="header">
+      <div class="header-left">
+        <h3>Employee Portal</h3>
+        <p>Explore courses and manage enrolments</p>
+      </div>
+      <div class="header-right">
+        <div class="admin-badge" style="background:#D8F3DC;color:#1B4332;">
+          {{ employeeName }} (Employee)
+        </div>
+      </div>
+    </div>
+
+    <!-- Dashboard View -->
+    <div *ngIf="currentView === 'dashboard'" class="cards-row">
+      <div class="section-card" (click)="setView('batches')">
+        <div class="stat-info">
+          <p>Available Batches</p>
+          <h2>{{ batches.length }}</h2>
+        </div>
+      </div>
+      <div class="section-card" (click)="setView('my-enrolments')">
+        <div class="stat-info">
+          <p>My Enrolments</p>
+          <h2>{{ myEnrolments.length }}</h2>
+        </div>
+      </div>
+    </div>
+
+    <!-- Batches View -->
+    <div class="table-box" *ngIf="currentView === 'batches'">
+      <div class="card-header">
+        <div class="card-title"><h4>Available Batches</h4></div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Batch</th>
+            <th>Course</th>
+            <th>Start Date</th>
+            <th>Mode</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let batch of batches">
+            <td><strong>{{ batch.name }}</strong></td>
+            <td>{{ batch.course?.name }}</td>
+            <td>{{ batch.startDate | date }}</td>
+            <td><span class="badge-tech">{{ batch.mode }}</span></td>
+            <td>
+              <button *ngIf="!isEnrolled(batch._id)" class="edit-btn" style="background:#D4AF37;color:#92400E;padding:6px 16px;border-radius:20px;" (click)="enrol(batch._id)">Enrol Now</button>
+              <span *ngIf="isEnrolled(batch._id)" style="font-size:12px;color:#1B4332;font-weight:600;">✓ Requested</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Calendar View -->
+    <div class="calendar-section" *ngIf="currentView === 'calendar'">
+      <div class="cal-header">
+        <span>{{ currentMonth }}</span>
+      </div>
+      <div class="cal-grid">
+        <div class="cal-day-name" *ngFor="let d of dayNames">{{ d }}</div>
+        <div class="cal-day" *ngFor="let d of calendarDays"
+          [class.empty-day]="d === 0"
+          [class.today]="d === todayDate">
+          <div class="date-num" *ngIf="d !== 0">{{ d }}</div>
+          <div class="events-container" *ngIf="d !== 0">
+            <div class="event-badge" *ngFor="let b of getBatchesForDate(d)">
+              <span class="event-course">{{ b.course?.name || 'Course' }}</span>
+              <span class="event-batch">{{ b.name }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- My Enrolments View -->
+    <div class="table-box" *ngIf="currentView === 'my-enrolments'">
+      <div class="card-header">
+        <div class="card-title"><h4>My Enrolments</h4></div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Batch</th>
+            <th>Course</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let e of myEnrolments">
+            <td><strong>{{ e.batch?.name || 'Unknown' }}</strong></td>
+            <td>{{ e.batch?.course?.name || 'Unknown' }}</td>
+            <td>
+              <span [class]="'badge-' + e.status">{{ e.status | titlecase }}</span>
+            </td>
+          </tr>
+          <tr *ngIf="myEnrolments.length === 0">
+            <td colspan="3" class="empty">You have not requested any enrolments yet</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Feedback View -->
+    <div class="table-box" *ngIf="currentView === 'feedback'" style="padding: 32px; max-width: 600px; margin: 24px auto;">
+      <h3 style="margin-bottom: 16px; color: #1B4332;">Provide Training Feedback</h3>
+      <div style="margin-bottom: 16px;">
+        <label style="display:block;margin-bottom:8px;font-weight:600;font-size:14px;color:#334155;">Select Batch</label>
+        <select [(ngModel)]="feedbackForm.batch" style="width:100%;padding:10px;border-radius:6px;border:1px solid #E2E8F0;outline:none;">
+          <option value="" disabled selected>-- Select a completed batch --</option>
+          <option *ngFor="let e of myEnrolments" [value]="e.batch?._id">{{ e.batch?.name }} - {{ e.batch?.course?.name }}</option>
+        </select>
+      </div>
+      <div style="margin-bottom: 24px;">
+        <label style="display:block;margin-bottom:8px;font-weight:600;font-size:14px;color:#334155;">Your Comments</label>
+        <textarea [(ngModel)]="feedbackForm.comments" rows="5" style="width:100%;padding:10px;border-radius:6px;border:1px solid #E2E8F0;outline:none;" placeholder="How was the training?"></textarea>
+      </div>
+      <button class="save-btn" (click)="submitFeedback()" style="width:100%;justify-content:center;padding:12px;">Submit Feedback</button>
+    </div>
+
+  </div>
+</div>
