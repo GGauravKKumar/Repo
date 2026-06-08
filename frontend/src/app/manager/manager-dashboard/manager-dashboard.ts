@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from '../../services/api';
 import { AuthService } from '../../services/auth';
@@ -7,7 +8,7 @@ import { AuthService } from '../../services/auth';
 @Component({
   selector: 'app-manager-dashboard',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './manager-dashboard.html',
   styleUrl: './manager-dashboard.css'
 })
@@ -17,12 +18,19 @@ export class ManagerDashboard implements OnInit {
   batches: any[] = [];
   enrolments: any[] = [];
   
-  currentView = 'dashboard'; // 'dashboard', 'batches', 'calendar', 'enrolments'
+  currentView = 'dashboard';
 
   calendarDays: number[] = [];
   dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   currentMonth = '';
   todayDate = 0;
+
+  // Calendar Report specific
+  calendarViewMode = 'calendar'; // 'calendar' | 'tabular'
+  filterCourse = '';
+  filterStatus = '';
+  filterStartDate = '';
+  filterEndDate = '';
 
   constructor(
     private api: ApiService,
@@ -64,7 +72,6 @@ export class ManagerDashboard implements OnInit {
   loadEnrolments() {
     this.api.getEnrolments().subscribe({
       next: (data: any) => {
-        // Optionally filter by manager's employees, but here we see all for demo
         this.enrolments = data;
         this.cdr.detectChanges();
       }
@@ -78,6 +85,81 @@ export class ManagerDashboard implements OnInit {
       },
       error: (err) => alert(err.error?.message)
     });
+  }
+
+  getEnrolledCount(batchId: string): number {
+    return this.enrolments.filter(e => e.batch?._id === batchId && e.status === 'approved').length;
+  }
+
+  getAvailableSeats(batch: any): number {
+    const capacity = batch.capacity || 0;
+    return Math.max(0, capacity - this.getEnrolledCount(batch._id));
+  }
+
+  getBatchStatus(batch: any): string {
+    const capacity = batch.capacity || 0;
+    const available = this.getAvailableSeats(batch);
+    if (available === 0 && capacity > 0) return 'Full';
+    if (capacity > 0 && (available / capacity) < 0.2) return `Nearly Full (${available} seats left)`;
+    return `Available (${available} seats left)`;
+  }
+
+  getDuration(start: string, end: string): string {
+    if (!start || !end) return '-';
+    const s = new Date(start).getTime();
+    const e = new Date(end).getTime();
+    const days = Math.ceil((e - s) / (1000 * 60 * 60 * 24));
+    return days > 0 ? `${days} days` : '1 day';
+  }
+
+  getTimelyStatus(batch: any): string {
+    if (!batch.startDate || !batch.endDate) return 'Upcoming';
+    const now = new Date().getTime();
+    const s = new Date(batch.startDate).getTime();
+    const e = new Date(batch.endDate).getTime();
+    if (now < s) return 'Upcoming';
+    if (now > e) return 'Completed';
+    return 'Ongoing';
+  }
+
+  get filteredBatches() {
+    return this.batches.filter(b => {
+      let match = true;
+      if (this.filterCourse && b.course?.name !== this.filterCourse) match = false;
+      if (this.filterStatus && this.getTimelyStatus(b) !== this.filterStatus) match = false;
+      if (this.filterStartDate && new Date(b.startDate) < new Date(this.filterStartDate)) match = false;
+      if (this.filterEndDate && new Date(b.endDate) > new Date(this.filterEndDate)) match = false;
+      return match;
+    });
+  }
+
+  getUniqueCourses(): string[] {
+    const courses = this.batches.map(b => b.course?.name).filter(n => !!n);
+    return [...new Set(courses)];
+  }
+
+  exportToCSV() {
+    const headers = ['Course Name', 'Batch Name', 'Start Date', 'End Date', 'Duration', 'Mode', 'Total Seats', 'Enrolled', 'Available Seats', 'Status'];
+    const rows = this.filteredBatches.map(b => [
+      b.course?.name || '-',
+      b.name || '-',
+      new Date(b.startDate).toLocaleDateString(),
+      new Date(b.endDate).toLocaleDateString(),
+      this.getDuration(b.startDate, b.endDate),
+      b.mode || '-',
+      b.capacity || 0,
+      this.getEnrolledCount(b._id),
+      this.getAvailableSeats(b),
+      this.getTimelyStatus(b)
+    ]);
+    const csvContent = "data:text/csv;charset=utf-8," + [headers.join(','), ...rows.map(e => e.join(','))].join("\n");
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "Course_Calendar_Report.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 
   getBatchesForDate(day: number): any[] {

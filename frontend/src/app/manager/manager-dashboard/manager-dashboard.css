@@ -335,17 +335,17 @@ nav ul li.active {
 table { width: 100%; border-collapse: collapse; }
 
 th {
-  font-size: 13px;
-  color: #1B4332;
+  font-size: 14px;
+  color: #0f172a;
   font-weight: 700;
-  font-weight: 600;
   text-align: left;
-  padding: 10px 12px;
-  border-bottom: 1px solid #E2E8F0;
+  padding: 12px 14px;
+  border-bottom: 2px solid #E2E8F0;
   text-transform: uppercase;
 }
 
-td { font-size: 14px; color: #1B4332; font-weight: 600; padding: 12px; border-bottom: 1px solid #333; }
+td { font-size: 15px; color: #0f172a; font-weight: 600; padding: 14px; border-bottom: 1px solid #E2E8F0; }
+td strong { font-size: 16px; color: #1B4332; }
 .empty { text-align: center; color: #94A3B8; padding: 30px !important; }
 
 .edit-btn {
