@@ -397,6 +397,10 @@ export class AdminCourses implements OnInit {
       .sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
   }
 
+  get remainingUpcomingBatches() {
+    return this.allUpcomingBatches.slice(3);
+  }
+
   get allLiveBatches() {
     const today = new Date();
     return this.batches
@@ -409,6 +413,10 @@ export class AdminCourses implements OnInit {
       .sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
   }
 
+  get remainingLiveBatches() {
+    return this.allLiveBatches.slice(3);
+  }
+
   get allCompletedBatches() {
     const today = new Date();
     return this.batches
@@ -418,6 +426,10 @@ export class AdminCourses implements OnInit {
         return endDate < today;
       })
       .sort((a, b) => new Date(b.endDate).getTime() - new Date(a.endDate).getTime());
+  }
+
+  get remainingCompletedBatches() {
+    return this.allCompletedBatches.slice(3);
   }
 
   logout() {
