@@ -32,14 +32,14 @@
 }
 
 .left-content h1 {
-  font-size: 28px;
+  font-size: 36px;
   font-weight: 800;
   letter-spacing: 2px;
   margin-bottom: 6px;
 }
 
 .sub {
-  font-size: 11px;
+  font-size: 15px;
   color: #D4AF37;
   text-transform: uppercase;
   letter-spacing: 2px;
@@ -55,7 +55,7 @@
 }
 
 .desc {
-  font-size: 16px;
+  font-size: 20px;
   opacity: 0.85;
   line-height: 2;
   font-weight: 500;
@@ -81,14 +81,14 @@
 }
 
 .form-box h2 {
-  font-size: 26px;
+  font-size: 32px;
   font-weight: 700;
   color: #1B4332;
   margin-bottom: 8px;
 }
 
 .hint {
-  font-size: 13px;
+  font-size: 17px;
   color: #64748B;
   margin-bottom: 32px;
 }
@@ -98,7 +98,7 @@
   color: #DC2626;
   padding: 10px 14px;
   border-radius: 8px;
-  font-size: 13px;
+  font-size: 17px;
   margin-bottom: 20px;
   border-left: 4px solid #DC2626;
 }
@@ -109,7 +109,7 @@
 
 .field label {
   display: block;
-  font-size: 13px;
+  font-size: 17px;
   font-weight: 600;
   color: #334155;
   margin-bottom: 8px;
@@ -131,7 +131,7 @@
   padding: 13px 16px 13px 44px;
   border: 1.5px solid #CBD5E1;
   border-radius: 10px;
-  font-size: 14px;
+  font-size: 18px;
   color: #334155;
   outline: none;
   background: white;
