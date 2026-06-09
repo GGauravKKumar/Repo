@@ -21,6 +21,41 @@ exports.createEnrolment = async (req, res) => {
     const { employee, batch, status } = req.body
     const existing = await Enrolment.findOne({ employee, batch, isDeleted: false })
     if (existing) return res.status(400).json({ message: 'Already enrolled' })
+
+    // Get the new batch details
+    const newBatch = await require('../models/Batch').findById(batch).populate('course', 'trainingMode')
+    if (!newBatch) return res.status(404).json({ message: 'Batch not found' })
+
+    // Get all active enrollments for this employee
+    const activeEnrolments = await Enrolment.find({ employee, isDeleted: false })
+      .populate({
+        path: 'batch',
+        populate: { path: 'course', select: 'trainingMode' }
+      })
+
+    // Check for date and time conflicts
+    for (let enrol of activeEnrolments) {
+      const existingBatch = enrol.batch
+      const existingStartDate = new Date(existingBatch.startDate)
+      const existingEndDate = new Date(existingBatch.endDate)
+      const newStartDate = new Date(newBatch.startDate)
+      const newEndDate = new Date(newBatch.endDate)
+
+      // Check if dates overlap
+      const datesOverlap = newStartDate <= existingEndDate && newEndDate >= existingStartDate
+
+      if (datesOverlap) {
+        // Check if training mode (time) is the same
+        const sameTime = existingBatch.mode === newBatch.mode
+
+        if (sameTime) {
+          return res.status(400).json({
+            message: `Cannot enroll: You are already enrolled in "${existingBatch.course.name}" (${existingBatch.name}) during the same time period. Dates overlap from ${existingStartDate.toDateString()} to ${Math.min(existingEndDate, newEndDate).toDateString()}`
+          })
+        }
+      }
+    }
+
     const enrolment = await Enrolment.create({ employee, batch, status: status || 'requested' })
     res.status(201).json(enrolment)
   } catch (err) {
