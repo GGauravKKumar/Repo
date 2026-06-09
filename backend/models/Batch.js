@@ -11,7 +11,7 @@ const batchSchema = new mongoose.Schema({
   endTime: { type: String, required: true },
   mode: { type: String, enum: ['Online', 'Offline', 'Hybrid'], required: true },
   trainer: { type: String, default: '' },
-  status: { type: String, required: true },
+  status: { type: String, default: 'Active' },
   isDeleted: { type: Boolean, default: false }
 }, { timestamps: true })
 

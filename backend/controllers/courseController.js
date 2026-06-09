@@ -11,8 +11,8 @@ exports.getAllCourses = async (req, res) => {
 
 exports.createCourse = async (req, res) => {
   try {
-    const { name, courseCode, description, duration, category, trainingMode, trainerName, maxParticipants, status } = req.body
-    const course = await Course.create({ name, courseCode, description, duration, category, trainingMode, trainerName, maxParticipants, status })
+    const { name, courseCode, description, duration, category, trainingMode } = req.body
+    const course = await Course.create({ name, courseCode, description, duration, category, trainingMode })
     res.status(201).json(course)
   } catch (err) {
     res.status(500).json({ message: err.message })
