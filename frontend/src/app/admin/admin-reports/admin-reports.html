@@ -94,29 +94,6 @@
 
     <!-- Dashboard Stats -->
     <div *ngIf="activeReport === 'dashboard'" style="padding: 0 32px;">
-      <div class="cards-row" style="margin-bottom: 32px;">
-        <div class="stat-square-card">
-          <p>Requested Enrolments</p>
-          <h2>{{ stats.requested }}</h2>
-        </div>
-        <div class="stat-square-card">
-          <p>Pending with Manager</p>
-          <h2>{{ stats.pending }}</h2>
-        </div>
-        <div class="stat-square-card">
-          <p>Not Approved</p>
-          <h2>{{ stats.rejected }}</h2>
-        </div>
-        <div class="stat-square-card">
-          <p>Approved</p>
-          <h2>{{ stats.approved }}</h2>
-        </div>
-        <div class="stat-square-card">
-          <p>Total Feedbacks</p>
-          <h2>{{ feedbacks.length }}</h2>
-        </div>
-      </div>
-
       <div class="chart-container" style="background: white; padding: 24px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
         <h3 style="color: #1B4332; font-weight: 700; margin-bottom: 24px; font-size: 18px;">Enrolment Statistics</h3>
         <div style="display: flex; align-items: flex-end; justify-content: space-around; height: 300px; gap: 16px;">
