@@ -136,6 +136,7 @@ export class AdminReports implements OnInit {
 
   setActiveReport(report: string) {
     this.activeReport = report;
+    this.loadData();
   }
 
   get filteredEnrolments() {
@@ -147,6 +148,8 @@ export class AdminReports implements OnInit {
       return this.enrolments.filter(e => e.status === 'rejected');
     } else if (this.activeReport === 'pending') {
       return this.enrolments.filter(e => e.status === 'pending');
+    } else if (this.activeReport === 'feedback') {
+      return this.feedbacks;
     }
     return this.enrolments;
   }
