@@ -11,10 +11,13 @@ exports.getAllCourses = async (req, res) => {
 
 exports.createCourse = async (req, res) => {
   try {
+    console.log('Request body received:', JSON.stringify(req.body, null, 2))
     const { name, courseCode, description, duration, category, trainingMode } = req.body
+    console.log('Creating course with fields:', { name, courseCode, description, duration, category, trainingMode })
     const course = await Course.create({ name, courseCode, description, duration, category, trainingMode })
     res.status(201).json(course)
   } catch (err) {
+    console.error('Error creating course:', err.message)
     res.status(500).json({ message: err.message })
   }
 }
