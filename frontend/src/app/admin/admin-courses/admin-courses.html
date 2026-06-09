@@ -119,12 +119,12 @@
             </select>
           </div>
           <div class="field">
-            <label>Trainer Name</label>
-            <input type="text" [(ngModel)]="form.trainerName" placeholder="Enter trainer name" />
-          </div>
-          <div class="field">
-            <label>Max Participants</label>
-            <input type="number" [(ngModel)]="form.maxParticipants" placeholder="Enter max participants" />
+            <label>Status</label>
+            <select [(ngModel)]="form.status">
+              <option value="">Select status</option>
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+            </select>
           </div>
 
           <div class="field full">

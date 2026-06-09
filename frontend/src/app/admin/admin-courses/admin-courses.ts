@@ -34,7 +34,6 @@ export class AdminCourses implements OnInit {
     category: '',
     trainingMode: '',
     trainerName: '',
-    maxParticipants: '',
     status: ''
   };
 
@@ -198,8 +197,7 @@ export class AdminCourses implements OnInit {
       category: '',
       trainingMode: '',
       trainerName: '',
-      maxParticipants: '',
-      status: ''
+      status: 'Active'
     };
 
     this.isEdit = false;
@@ -230,9 +228,6 @@ export class AdminCourses implements OnInit {
 
       trainerName:
         course.trainerName,
-
-      maxParticipants:
-        course.maxParticipants,
 
       status:
         course.status
@@ -304,8 +299,7 @@ export class AdminCourses implements OnInit {
               category: '',
               trainingMode: '',
               trainerName: '',
-              maxParticipants: '',
-              status: ''
+              status: 'Active'
             };
             this.cdr.detectChanges();
           },
