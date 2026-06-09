@@ -120,21 +120,96 @@
       </table>
     </div>
 
-    <!-- Calendar View -->
-    <div class="calendar-section" *ngIf="currentView === 'calendar'">
-      <div class="cal-header">
-        <span>{{ currentMonth }}</span>
-      </div>
-      <div class="cal-grid">
-        <div class="cal-day-name" *ngFor="let d of dayNames">{{ d }}</div>
-        <div class="cal-day" *ngFor="let d of calendarDays"
-          [class.empty-day]="d === 0"
-          [class.today]="d === todayDate">
-          <div class="date-num" *ngIf="d !== 0">{{ d }}</div>
-          <div class="events-container" *ngIf="d !== 0">
-            <div class="event-badge" *ngFor="let b of getBatchesForDate(d)">
-              <span class="event-course">{{ b.course?.name || 'Course' }}</span>
-              <span class="event-batch">{{ b.name }}</span>
+    <!-- 3-Panel Calendar System -->
+    <div *ngIf="currentView === 'calendar'" style="padding: 0 32px;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; margin-bottom: 32px;">
+
+        <!-- Panel 1: Upcoming Batches -->
+        <div style="background: white; border-radius: 12px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+          <div style="display: flex; align-items: center; margin-bottom: 20px; gap: 8px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2">
+              <path d="M8 3v6m8-6v6M5 11h14a2 2 0 012 2v7a2 2 0 01-2 2H5a2 2 0 01-2-2v-7a2 2 0 012-2z"/>
+            </svg>
+            <h3 style="color: #1B4332; font-weight: 700; margin: 0;">Upcoming Batches</h3>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <div *ngFor="let batch of upcomingBatches" style="padding: 12px; background: #F0F9FF; border-left: 4px solid #3B82F6; border-radius: 6px;">
+              <p style="margin: 0 0 4px 0; font-weight: 700; color: #1B4332; font-size: 15px;">{{ batch.name }}</p>
+              <p style="margin: 0 0 4px 0; font-size: 13px; color: #64748B;">{{ batch.course?.name }}</p>
+              <p style="margin: 0; font-size: 12px; color: #3B82F6; font-weight: 600;">{{ batch.startDate | date:'dd MMM yyyy' }}</p>
+            </div>
+            <button (click)="showAllUpcoming = !showAllUpcoming" style="background: #3B82F6; color: white; border: none; padding: 10px; border-radius: 6px; cursor: pointer; font-weight: 600; margin-top: 8px; width: 100%;">{{ showAllUpcoming ? 'Hide All' : 'View All' }} ({{ allUpcomingBatches.length }})</button>
+          </div>
+          <div *ngIf="showAllUpcoming" style="margin-top: 16px; padding-top: 16px; border-top: 1px solid #E2E8F0;">
+            <div style="display: flex; flex-direction: column; gap: 10px; max-height: 400px; overflow-y: auto;">
+              <div *ngFor="let batch of remainingUpcomingBatches" style="padding: 10px; background: #F0F9FF; border-left: 4px solid #3B82F6; border-radius: 6px;">
+                <p style="margin: 0 0 4px 0; font-weight: 700; color: #1B4332; font-size: 14px;">{{ batch.name }}</p>
+                <p style="margin: 0 0 4px 0; font-size: 12px; color: #64748B;">{{ batch.course?.name }}</p>
+                <p style="margin: 0; font-size: 12px; color: #3B82F6; font-weight: 600;">{{ batch.startDate | date:'dd MMM yyyy' }}</p>
+              </div>
+              <div *ngIf="remainingUpcomingBatches.length === 0" style="padding: 10px; text-align: center; color: #64748B;">
+                <p>No more batches in this category</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 2: Live Training -->
+        <div style="background: white; border-radius: 12px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+          <div style="display: flex; align-items: center; margin-bottom: 20px; gap: 8px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2">
+              <circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/>
+            </svg>
+            <h3 style="color: #1B4332; font-weight: 700; margin: 0;">Live Training</h3>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <div *ngFor="let batch of liveBatches" style="padding: 12px; background: #F0FDF4; border-left: 4px solid #10B981; border-radius: 6px;">
+              <p style="margin: 0 0 4px 0; font-weight: 700; color: #1B4332; font-size: 15px;">{{ batch.name }}</p>
+              <p style="margin: 0 0 4px 0; font-size: 13px; color: #64748B;">{{ batch.course?.name }}</p>
+              <p style="margin: 0; font-size: 12px; color: #10B981; font-weight: 600;">Ends: {{ batch.endDate | date:'dd MMM yyyy' }}</p>
+            </div>
+            <button (click)="showAllLive = !showAllLive" style="background: #10B981; color: white; border: none; padding: 10px; border-radius: 6px; cursor: pointer; font-weight: 600; margin-top: 8px; width: 100%;">{{ showAllLive ? 'Hide All' : 'View All' }} ({{ allLiveBatches.length }})</button>
+          </div>
+          <div *ngIf="showAllLive" style="margin-top: 16px; padding-top: 16px; border-top: 1px solid #E2E8F0;">
+            <div style="display: flex; flex-direction: column; gap: 10px; max-height: 400px; overflow-y: auto;">
+              <div *ngFor="let batch of remainingLiveBatches" style="padding: 10px; background: #F0FDF4; border-left: 4px solid #10B981; border-radius: 6px;">
+                <p style="margin: 0 0 4px 0; font-weight: 700; color: #1B4332; font-size: 14px;">{{ batch.name }}</p>
+                <p style="margin: 0 0 4px 0; font-size: 12px; color: #64748B;">{{ batch.course?.name }}</p>
+                <p style="margin: 0; font-size: 12px; color: #10B981; font-weight: 600;">Ends: {{ batch.endDate | date:'dd MMM yyyy' }}</p>
+              </div>
+              <div *ngIf="remainingLiveBatches.length === 0" style="padding: 10px; text-align: center; color: #64748B;">
+                <p>No more batches in this category</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 3: Completed Training -->
+        <div style="background: white; border-radius: 12px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+          <div style="display: flex; align-items: center; margin-bottom: 20px; gap: 8px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="2">
+              <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+            <h3 style="color: #1B4332; font-weight: 700; margin: 0;">Completed Training</h3>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <div *ngFor="let batch of completedBatches" style="padding: 12px; background: #FAF5FF; border-left: 4px solid #8B5CF6; border-radius: 6px;">
+              <p style="margin: 0 0 4px 0; font-weight: 700; color: #1B4332; font-size: 15px;">{{ batch.name }}</p>
+              <p style="margin: 0 0 4px 0; font-size: 13px; color: #64748B;">{{ batch.course?.name }}</p>
+              <p style="margin: 0; font-size: 12px; color: #8B5CF6; font-weight: 600;">Ended: {{ batch.endDate | date:'dd MMM yyyy' }}</p>
+            </div>
+            <button (click)="showAllCompleted = !showAllCompleted" style="background: #8B5CF6; color: white; border: none; padding: 10px; border-radius: 6px; cursor: pointer; font-weight: 600; margin-top: 8px; width: 100%;">{{ showAllCompleted ? 'Hide All' : 'View All' }} ({{ allCompletedBatches.length }})</button>
+          </div>
+          <div *ngIf="showAllCompleted" style="margin-top: 16px; padding-top: 16px; border-top: 1px solid #E2E8F0;">
+            <div style="display: flex; flex-direction: column; gap: 10px; max-height: 400px; overflow-y: auto;">
+              <div *ngFor="let batch of remainingCompletedBatches" style="padding: 10px; background: #FAF5FF; border-left: 4px solid #8B5CF6; border-radius: 6px;">
+                <p style="margin: 0 0 4px 0; font-weight: 700; color: #1B4332; font-size: 14px;">{{ batch.name }}</p>
+                <p style="margin: 0 0 4px 0; font-size: 12px; color: #64748B;">{{ batch.course?.name }}</p>
+                <p style="margin: 0; font-size: 12px; color: #8B5CF6; font-weight: 600;">Ended: {{ batch.endDate | date:'dd MMM yyyy' }}</p>
+              </div>
+              <div *ngIf="remainingCompletedBatches.length === 0" style="padding: 10px; text-align: center; color: #64748B;">
+                <p>No more batches in this category</p>
+              </div>
             </div>
           </div>
         </div>

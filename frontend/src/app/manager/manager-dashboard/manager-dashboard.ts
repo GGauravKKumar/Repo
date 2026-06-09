@@ -32,6 +32,11 @@ export class ManagerDashboard implements OnInit {
   filterStartDate = '';
   filterEndDate = '';
 
+  // 3-Panel view toggles
+  showAllUpcoming = false;
+  showAllLive = false;
+  showAllCompleted = false;
+
   constructor(
     private api: ApiService,
     private router: Router,
@@ -175,6 +180,91 @@ export class ManagerDashboard implements OnInit {
              bDate.getMonth() === currentMonth && 
              bDate.getFullYear() === currentYear;
     });
+  }
+
+  get upcomingBatches() {
+    const today = new Date();
+    const next30Days = new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000);
+    return this.batches
+      .filter(b => {
+        if (!b.startDate) return false;
+        const startDate = new Date(b.startDate);
+        return startDate >= today && startDate <= next30Days;
+      })
+      .sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime())
+      .slice(0, 3);
+  }
+
+  get liveBatches() {
+    const today = new Date();
+    return this.batches
+      .filter(b => {
+        if (!b.startDate || !b.endDate) return false;
+        const startDate = new Date(b.startDate);
+        const endDate = new Date(b.endDate);
+        return startDate <= today && endDate >= today;
+      })
+      .sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime())
+      .slice(0, 3);
+  }
+
+  get completedBatches() {
+    const today = new Date();
+    return this.batches
+      .filter(b => {
+        if (!b.endDate) return false;
+        const endDate = new Date(b.endDate);
+        return endDate < today;
+      })
+      .sort((a, b) => new Date(b.endDate).getTime() - new Date(a.endDate).getTime())
+      .slice(0, 3);
+  }
+
+  get allUpcomingBatches() {
+    const today = new Date();
+    const next30Days = new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000);
+    return this.batches
+      .filter(b => {
+        if (!b.startDate) return false;
+        const startDate = new Date(b.startDate);
+        return startDate >= today && startDate <= next30Days;
+      })
+      .sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
+  }
+
+  get remainingUpcomingBatches() {
+    return this.allUpcomingBatches.slice(3);
+  }
+
+  get allLiveBatches() {
+    const today = new Date();
+    return this.batches
+      .filter(b => {
+        if (!b.startDate || !b.endDate) return false;
+        const startDate = new Date(b.startDate);
+        const endDate = new Date(b.endDate);
+        return startDate <= today && endDate >= today;
+      })
+      .sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
+  }
+
+  get remainingLiveBatches() {
+    return this.allLiveBatches.slice(3);
+  }
+
+  get allCompletedBatches() {
+    const today = new Date();
+    return this.batches
+      .filter(b => {
+        if (!b.endDate) return false;
+        const endDate = new Date(b.endDate);
+        return endDate < today;
+      })
+      .sort((a, b) => new Date(b.endDate).getTime() - new Date(a.endDate).getTime());
+  }
+
+  get remainingCompletedBatches() {
+    return this.allCompletedBatches.slice(3);
   }
 
   buildCalendar() {
