@@ -7,11 +7,11 @@ const batchSchema = new mongoose.Schema({
   startDate: { type: Date, required: true },
   endDate: { type: Date, required: true },
   capacity: { type: Number, required: true },
-  trainer: { type: String, required: true },
   startTime: { type: String, required: true },
   endTime: { type: String, required: true },
   mode: { type: String, enum: ['Online', 'Offline', 'Hybrid'], required: true },
-  status: { type: String, enum: ['Live', 'Upcoming', 'Completed', 'Cancelled'], required: true },
+  trainer: { type: String, default: '' },
+  status: { type: String, required: true },
   isDeleted: { type: Boolean, default: false }
 }, { timestamps: true })
 

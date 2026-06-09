@@ -12,6 +12,7 @@ const userSchema = new mongoose.Schema({
   gender: { type: String, enum: ['Male', 'Female', 'Other'] },
   currentPostingLocation: { type: String },
   dateOfCurrentPosting: { type: Date },
+  managerId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   isDeleted: { type: Boolean, default: false }
 }, { timestamps: true })
 
