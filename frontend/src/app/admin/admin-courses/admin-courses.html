@@ -232,7 +232,7 @@
               <p style="margin: 0 0 4px 0; font-size: 13px; color: #64748B;">{{ batch.course?.name }}</p>
               <p style="margin: 0; font-size: 12px; color: #3B82F6; font-weight: 600;">{{ batch.startDate | date:'dd MMM yyyy' }}</p>
             </div>
-            <button *ngIf="allUpcomingBatches.length > 3" (click)="showAllUpcoming = !showAllUpcoming" style="background: #3B82F6; color: white; border: none; padding: 10px; border-radius: 6px; cursor: pointer; font-weight: 600; margin-top: 8px;">View All ({{ allUpcomingBatches.length }})</button>
+            <button (click)="showAllUpcoming = !showAllUpcoming" style="background: #3B82F6; color: white; border: none; padding: 10px; border-radius: 6px; cursor: pointer; font-weight: 600; margin-top: 8px; width: 100%;">{{ showAllUpcoming ? 'Hide All' : 'View All' }} ({{ allUpcomingBatches.length }})</button>
           </div>
 
           <!-- View All Modal -->
@@ -260,7 +260,7 @@
               <p style="margin: 0 0 4px 0; font-size: 13px; color: #64748B;">{{ batch.course?.name }}</p>
               <p style="margin: 0; font-size: 12px; color: #10B981; font-weight: 600;">Ends: {{ batch.endDate | date:'dd MMM yyyy' }}</p>
             </div>
-            <button *ngIf="allLiveBatches.length > 3" (click)="showAllLive = !showAllLive" style="background: #10B981; color: white; border: none; padding: 10px; border-radius: 6px; cursor: pointer; font-weight: 600; margin-top: 8px;">View All ({{ allLiveBatches.length }})</button>
+            <button (click)="showAllLive = !showAllLive" style="background: #10B981; color: white; border: none; padding: 10px; border-radius: 6px; cursor: pointer; font-weight: 600; margin-top: 8px; width: 100%;">{{ showAllLive ? 'Hide All' : 'View All' }} ({{ allLiveBatches.length }})</button>
           </div>
 
           <!-- View All Modal -->
@@ -288,7 +288,7 @@
               <p style="margin: 0 0 4px 0; font-size: 13px; color: #64748B;">{{ batch.course?.name }}</p>
               <p style="margin: 0; font-size: 12px; color: #8B5CF6; font-weight: 600;">Ended: {{ batch.endDate | date:'dd MMM yyyy' }}</p>
             </div>
-            <button *ngIf="allCompletedBatches.length > 3" (click)="showAllCompleted = !showAllCompleted" style="background: #8B5CF6; color: white; border: none; padding: 10px; border-radius: 6px; cursor: pointer; font-weight: 600; margin-top: 8px;">View All ({{ allCompletedBatches.length }})</button>
+            <button (click)="showAllCompleted = !showAllCompleted" style="background: #8B5CF6; color: white; border: none; padding: 10px; border-radius: 6px; cursor: pointer; font-weight: 600; margin-top: 8px; width: 100%;">{{ showAllCompleted ? 'Hide All' : 'View All' }} ({{ allCompletedBatches.length }})</button>
           </div>
 
           <!-- View All Modal -->
