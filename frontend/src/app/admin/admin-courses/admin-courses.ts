@@ -16,6 +16,9 @@ export class AdminCourses implements OnInit {
 
   courses: any[] = [];
   batches: any[] = [];
+  showAllUpcoming = false;
+  showAllLive = false;
+  showAllCompleted = false;
 
   showForm = false;
   showList = false;
@@ -341,9 +344,80 @@ export class AdminCourses implements OnInit {
   }
 
   upcomingCourses() {
+    return this.courses.slice(0, 5);
+  }
 
-    return this.courses
-      .slice(0, 5);
+  get upcomingBatches() {
+    const today = new Date();
+    const next30Days = new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000);
+    return this.batches
+      .filter(b => {
+        if (!b.startDate) return false;
+        const startDate = new Date(b.startDate);
+        return startDate >= today && startDate <= next30Days;
+      })
+      .sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime())
+      .slice(0, 3);
+  }
+
+  get liveBatches() {
+    const today = new Date();
+    return this.batches
+      .filter(b => {
+        if (!b.startDate || !b.endDate) return false;
+        const startDate = new Date(b.startDate);
+        const endDate = new Date(b.endDate);
+        return startDate <= today && endDate >= today;
+      })
+      .sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime())
+      .slice(0, 3);
+  }
+
+  get completedBatches() {
+    const today = new Date();
+    return this.batches
+      .filter(b => {
+        if (!b.endDate) return false;
+        const endDate = new Date(b.endDate);
+        return endDate < today;
+      })
+      .sort((a, b) => new Date(b.endDate).getTime() - new Date(a.endDate).getTime())
+      .slice(0, 3);
+  }
+
+  get allUpcomingBatches() {
+    const today = new Date();
+    const next30Days = new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000);
+    return this.batches
+      .filter(b => {
+        if (!b.startDate) return false;
+        const startDate = new Date(b.startDate);
+        return startDate >= today && startDate <= next30Days;
+      })
+      .sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
+  }
+
+  get allLiveBatches() {
+    const today = new Date();
+    return this.batches
+      .filter(b => {
+        if (!b.startDate || !b.endDate) return false;
+        const startDate = new Date(b.startDate);
+        const endDate = new Date(b.endDate);
+        return startDate <= today && endDate >= today;
+      })
+      .sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
+  }
+
+  get allCompletedBatches() {
+    const today = new Date();
+    return this.batches
+      .filter(b => {
+        if (!b.endDate) return false;
+        const endDate = new Date(b.endDate);
+        return endDate < today;
+      })
+      .sort((a, b) => new Date(b.endDate).getTime() - new Date(a.endDate).getTime());
   }
 
   logout() {
