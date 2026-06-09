@@ -15,14 +15,17 @@ import { AuthService } from '../../services/auth';
 export class AdminUsers implements OnInit {
 
   users: any[] = [];
+  managers: any[] = [];
 
   showForm = false;
   showList = true;
+  showViewModal = false;
 
   isEdit = false;
   selectedId = '';
 
   adminName = '';
+  viewData: any = null;
 
   form = {
     empId: '',
@@ -35,7 +38,8 @@ export class AdminUsers implements OnInit {
     age: null as number | null,
     gender: '',
     currentPostingLocation: '',
-    dateOfCurrentPosting: ''
+    dateOfCurrentPosting: '',
+    managerId: ''
   };
 
   get yearsInCompany(): number | null {
@@ -83,6 +87,7 @@ export class AdminUsers implements OnInit {
     this.api.getUsers().subscribe({
       next: (data: any) => {
         this.users = data;
+        this.managers = data.filter((u: any) => u.role === 'manager');
         this.cdr.detectChanges();
       },
       error: (err) => console.error(err)
@@ -121,7 +126,8 @@ export class AdminUsers implements OnInit {
       age: null,
       gender: '',
       currentPostingLocation: '',
-      dateOfCurrentPosting: ''
+      dateOfCurrentPosting: '',
+      managerId: ''
     };
     this.isEdit = false;
     this.showForm = true;
@@ -139,7 +145,8 @@ export class AdminUsers implements OnInit {
       age: user.age || null,
       gender: user.gender || '',
       currentPostingLocation: user.currentPostingLocation || '',
-      dateOfCurrentPosting: user.dateOfCurrentPosting ? user.dateOfCurrentPosting.substring(0, 10) : ''
+      dateOfCurrentPosting: user.dateOfCurrentPosting ? user.dateOfCurrentPosting.substring(0, 10) : '',
+      managerId: user.managerId?._id || ''
     };
     this.selectedId = user._id;
     this.isEdit = true;
@@ -158,9 +165,10 @@ export class AdminUsers implements OnInit {
         age: this.form.age,
         gender: this.form.gender,
         currentPostingLocation: this.form.currentPostingLocation,
-        dateOfCurrentPosting: this.form.dateOfCurrentPosting
+        dateOfCurrentPosting: this.form.dateOfCurrentPosting,
+        managerId: this.form.managerId || null
       };
-      
+
       this.api.updateUser(this.selectedId, payload).subscribe({
         next: (updated: any) => {
           const index = this.users.findIndex(u => u._id === this.selectedId);
@@ -177,7 +185,11 @@ export class AdminUsers implements OnInit {
         alert("Password is required for new user");
         return;
       }
-      this.api.createUser(this.form).subscribe({
+      const payload = {
+        ...this.form,
+        managerId: this.form.managerId || null
+      };
+      this.api.createUser(payload).subscribe({
         next: () => {
           this.loadUsers(); // Need to reload as create just returns message
           this.showForm = false;
@@ -197,5 +209,15 @@ export class AdminUsers implements OnInit {
         error: (err) => alert('Error: ' + err.error?.message)
       });
     }
+  }
+
+  viewUser(user: any) {
+    this.viewData = user;
+    this.showViewModal = true;
+  }
+
+  closeViewModal() {
+    this.showViewModal = false;
+    this.viewData = null;
   }
 }

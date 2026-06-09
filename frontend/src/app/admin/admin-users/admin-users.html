@@ -112,6 +112,13 @@
               <option value="manager">Manager</option>
             </select>
           </div>
+          <div class="field" *ngIf="form.role === 'employee'">
+            <label>Assign Manager</label>
+            <select [(ngModel)]="form.managerId">
+              <option value="">Select manager</option>
+              <option *ngFor="let manager of managers" [value]="manager._id">{{ manager.name }}</option>
+            </select>
+          </div>
           <div class="field">
             <label>Department</label>
             <select [(ngModel)]="form.department">
@@ -206,6 +213,7 @@
             <th>Name</th>
             <th>Email</th>
             <th>Role</th>
+            <th>Manager</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -220,8 +228,10 @@
                 {{ user.role | titlecase }}
               </span>
             </td>
+            <td><strong>{{ user.managerId?.name || 'N/A' }}</strong></td>
             <td>
               <ng-container *ngIf="user.role !== 'admin'">
+                <button class="edit-btn" style="background:#0284c7;color:white;" (click)="$event.stopPropagation(); viewUser(user)">View</button>
                 <button class="edit-btn" (click)="$event.stopPropagation(); openEdit(user)">Edit</button>
                 <button class="del-btn" (click)="$event.stopPropagation(); delete(user._id)">Delete</button>
               </ng-container>
@@ -229,10 +239,66 @@
             </td>
           </tr>
           <tr *ngIf="users.length === 0">
-            <td colspan="6" class="empty">No users added yet</td>
+            <td colspan="7" class="empty">No users added yet</td>
           </tr>
         </tbody>
       </table>
+    </div>
+
+    <!-- View Modal -->
+    <div *ngIf="showViewModal" class="modal-overlay" (click)="closeViewModal()">
+      <div class="form-box" (click)="$event.stopPropagation()" style="max-width: 600px;">
+        <h4>User Details</h4>
+        <div class="form-grid" style="grid-template-columns: 1fr 1fr; gap: 20px;">
+          <div class="field">
+            <label>Employee ID</label>
+            <p style="font-size: 14px; font-weight: 600; color: #1B4332;">{{ viewData?.empId || 'N/A' }}</p>
+          </div>
+          <div class="field">
+            <label>Name</label>
+            <p style="font-size: 14px; font-weight: 600; color: #1B4332;">{{ viewData?.name }}</p>
+          </div>
+          <div class="field">
+            <label>Email</label>
+            <p style="font-size: 14px; font-weight: 600; color: #1B4332;">{{ viewData?.email }}</p>
+          </div>
+          <div class="field">
+            <label>Role</label>
+            <p style="font-size: 14px; font-weight: 600; color: #1B4332;">{{ viewData?.role | titlecase }}</p>
+          </div>
+          <div class="field">
+            <label>Department</label>
+            <p style="font-size: 14px; font-weight: 600; color: #1B4332;">{{ viewData?.department || 'N/A' }}</p>
+          </div>
+          <div class="field">
+            <label>Manager Assigned</label>
+            <p style="font-size: 14px; font-weight: 600; color: #1B4332;">{{ viewData?.managerId?.name || 'N/A' }}</p>
+          </div>
+          <div class="field">
+            <label>Gender</label>
+            <p style="font-size: 14px; font-weight: 600; color: #1B4332;">{{ viewData?.gender || 'N/A' }}</p>
+          </div>
+          <div class="field">
+            <label>Age</label>
+            <p style="font-size: 14px; font-weight: 600; color: #1B4332;">{{ viewData?.age || 'N/A' }}</p>
+          </div>
+          <div class="field">
+            <label>Date of Joining</label>
+            <p style="font-size: 14px; font-weight: 600; color: #1B4332;">{{ (viewData?.dateOfJoining | date:'dd/MM/yyyy') || 'N/A' }}</p>
+          </div>
+          <div class="field">
+            <label>Current Posting Location</label>
+            <p style="font-size: 14px; font-weight: 600; color: #1B4332;">{{ viewData?.currentPostingLocation || 'N/A' }}</p>
+          </div>
+          <div class="field full">
+            <label>Date of Current Posting</label>
+            <p style="font-size: 14px; font-weight: 600; color: #1B4332;">{{ (viewData?.dateOfCurrentPosting | date:'dd/MM/yyyy') || 'N/A' }}</p>
+          </div>
+        </div>
+        <div class="form-actions" style="justify-content: flex-end; margin-top: 24px;">
+          <button class="cancel-btn" (click)="closeViewModal()">Close</button>
+        </div>
+      </div>
     </div>
 
   </div>

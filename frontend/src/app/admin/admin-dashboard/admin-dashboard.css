@@ -33,7 +33,7 @@
   gap: 8px;
 }
 
-.brand h2 { font-size: 22px; font-weight: 800; letter-spacing: 2px; }
+.brand h2 { font-size: 18px; font-weight: 800; letter-spacing: 2px; }
 .brand p { font-size: 10px; color: #D4AF37; letter-spacing: 1px; }
 
 nav { flex: 1; padding: 20px 0; }
@@ -41,7 +41,7 @@ nav ul { list-style: none; }
 
 nav ul li {
   padding: 13px 24px;
-  font-size: 36px;
+  font-size: 16px;
   cursor: pointer;
   opacity: 1;
   color: #ffffff;
@@ -63,7 +63,7 @@ nav ul li.active {
 
 .logout {
   padding: 16px 24px;
-  font-size: 36px;
+  font-size: 16px;
   cursor: pointer;
   opacity: 1;
   color: #ffffff;
@@ -93,8 +93,8 @@ nav ul li.active {
   color: white;
 }
 
-.header-left h3 { font-size: 40px; font-weight: 700; }
-.header-left p { font-size: 19px; opacity: 0.7; margin-top: 4px; }
+.header-left h3 { font-size: 26px; font-weight: 700; }
+.header-left p { font-size: 15px; opacity: 0.7; margin-top: 4px; }
 
 .admin-badge {
   display: flex;
@@ -103,7 +103,7 @@ nav ul li.active {
   background: rgba(255,255,255,0.15);
   padding: 8px 16px;
   border-radius: 20px;
-  font-size: 22px;
+  font-size: 14px;
   font-weight: 600;
 }
 
@@ -148,5 +148,5 @@ nav ul li.active {
 .light { background: #F0FDF4; }
 .gold2 { background: #FEF3C7; }
 
-.stat-info p { font-size: 19px; color: #1B4332; margin-bottom: 6px; font-weight: 700; }
+.stat-info p { font-size: 15px; color: #1B4332; margin-bottom: 6px; font-weight: 700; }
 .stat-info h2 { font-size: 42px; font-weight: 800; color: #1B4332; }
