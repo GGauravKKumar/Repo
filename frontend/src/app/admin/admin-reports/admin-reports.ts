@@ -18,7 +18,7 @@ export class AdminReports implements OnInit {
   enrolments: any[] = [];
   feedbacks: any[] = [];
 
-  activeReport = 'participant-request';
+  activeReport = 'dashboard';
 
   calendarDays: number[] = [];
   dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];

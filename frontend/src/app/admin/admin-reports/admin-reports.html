@@ -93,26 +93,54 @@
     </div>
 
     <!-- Dashboard Stats -->
-    <div class="cards-row" *ngIf="activeReport === 'dashboard'">
-      <div class="stat-square-card">
-        <p>Requested Enrolments</p>
-        <h2>{{ stats.requested }}</h2>
+    <div *ngIf="activeReport === 'dashboard'" style="padding: 0 32px;">
+      <div class="cards-row" style="margin-bottom: 32px;">
+        <div class="stat-square-card">
+          <p>Requested Enrolments</p>
+          <h2>{{ stats.requested }}</h2>
+        </div>
+        <div class="stat-square-card">
+          <p>Pending with Manager</p>
+          <h2>{{ stats.pending }}</h2>
+        </div>
+        <div class="stat-square-card">
+          <p>Not Approved</p>
+          <h2>{{ stats.rejected }}</h2>
+        </div>
+        <div class="stat-square-card">
+          <p>Approved</p>
+          <h2>{{ stats.approved }}</h2>
+        </div>
+        <div class="stat-square-card">
+          <p>Total Feedbacks</p>
+          <h2>{{ feedbacks.length }}</h2>
+        </div>
       </div>
-      <div class="stat-square-card">
-        <p>Pending with Manager</p>
-        <h2>{{ stats.pending }}</h2>
-      </div>
-      <div class="stat-square-card">
-        <p>Not Approved</p>
-        <h2>{{ stats.rejected }}</h2>
-      </div>
-      <div class="stat-square-card">
-        <p>Approved</p>
-        <h2>{{ stats.approved }}</h2>
-      </div>
-      <div class="stat-square-card">
-        <p>Total Feedbacks</p>
-        <h2>{{ feedbacks.length }}</h2>
+
+      <div class="chart-container" style="background: white; padding: 24px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <h3 style="color: #1B4332; font-weight: 700; margin-bottom: 24px; font-size: 18px;">Enrolment Statistics</h3>
+        <div style="display: flex; align-items: flex-end; justify-content: space-around; height: 300px; gap: 16px;">
+          <div style="display: flex; flex-direction: column; align-items: center; flex: 1;">
+            <div style="width: 100%; background: linear-gradient(to top, #3B82F6, #60A5FA); border-radius: 8px; margin-bottom: 12px; height: {{ (stats.requested / stats.total * 100) || 5 }}%; min-height: 20px;"></div>
+            <span style="font-size: 14px; font-weight: 600; color: #1B4332;">Requested</span>
+            <span style="font-size: 18px; font-weight: 700; color: #3B82F6;">{{ stats.requested }}</span>
+          </div>
+          <div style="display: flex; flex-direction: column; align-items: center; flex: 1;">
+            <div style="width: 100%; background: linear-gradient(to top, #F59E0B, #FBBF24); border-radius: 8px; margin-bottom: 12px; height: {{ (stats.pending / stats.total * 100) || 5 }}%; min-height: 20px;"></div>
+            <span style="font-size: 14px; font-weight: 600; color: #1B4332;">Pending</span>
+            <span style="font-size: 18px; font-weight: 700; color: #F59E0B;">{{ stats.pending }}</span>
+          </div>
+          <div style="display: flex; flex-direction: column; align-items: center; flex: 1;">
+            <div style="width: 100%; background: linear-gradient(to top, #EF4444, #F87171); border-radius: 8px; margin-bottom: 12px; height: {{ (stats.rejected / stats.total * 100) || 5 }}%; min-height: 20px;"></div>
+            <span style="font-size: 14px; font-weight: 600; color: #1B4332;">Rejected</span>
+            <span style="font-size: 18px; font-weight: 700; color: #EF4444;">{{ stats.rejected }}</span>
+          </div>
+          <div style="display: flex; flex-direction: column; align-items: center; flex: 1;">
+            <div style="width: 100%; background: linear-gradient(to top, #10B981, #34D399); border-radius: 8px; margin-bottom: 12px; height: {{ (stats.approved / stats.total * 100) || 5 }}%; min-height: 20px;"></div>
+            <span style="font-size: 14px; font-weight: 600; color: #1B4332;">Approved</span>
+            <span style="font-size: 18px; font-weight: 700; color: #10B981;">{{ stats.approved }}</span>
+          </div>
+        </div>
       </div>
     </div>
 
