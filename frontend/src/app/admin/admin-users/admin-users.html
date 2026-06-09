@@ -116,7 +116,7 @@
             <label>Assign Manager</label>
             <select [(ngModel)]="form.managerId">
               <option value="">Select manager</option>
-              <option *ngFor="let manager of managers" [value]="manager._id">{{ manager.name }}</option>
+              <option *ngFor="let manager of managers" [value]="manager._id">{{ manager.name }} ({{ manager.empId }})</option>
             </select>
           </div>
           <div class="field">
@@ -228,7 +228,7 @@
                 {{ user.role | titlecase }}
               </span>
             </td>
-            <td><strong>{{ user.managerId?.name || 'N/A' }}</strong></td>
+            <td><strong>{{ user.managerId?.name ? user.managerId.name + ' (' + user.managerId.empId + ')' : 'N/A' }}</strong></td>
             <td>
               <ng-container *ngIf="user.role !== 'admin'">
                 <button class="edit-btn" style="background:#0284c7;color:white;" (click)="$event.stopPropagation(); viewUser(user)">View</button>
@@ -272,7 +272,7 @@
           </div>
           <div class="field">
             <label>Manager Assigned</label>
-            <p style="font-size: 14px; font-weight: 600; color: #1B4332;">{{ viewData?.managerId?.name || 'N/A' }}</p>
+            <p style="font-size: 14px; font-weight: 600; color: #1B4332;">{{ viewData?.managerId?.name ? viewData.managerId.name + ' (' + viewData.managerId.empId + ')' : 'N/A' }}</p>
           </div>
           <div class="field">
             <label>Gender</label>
