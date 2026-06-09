@@ -7,8 +7,7 @@ const courseSchema = new mongoose.Schema({
   duration: { type: Number, required: true },
   category: { type: String, enum: ['Technical', 'Non-Technical'], required: true },
   trainingMode: { type: String, required: true },
-  trainerName: { type: String, default: '' },
-  status: { type: String, required: true },
+  status: { type: String, default: 'Active' },
   isDeleted: { type: Boolean, default: false }
 }, { timestamps: true })
 

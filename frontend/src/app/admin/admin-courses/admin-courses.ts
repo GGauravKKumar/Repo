@@ -32,9 +32,7 @@ export class AdminCourses implements OnInit {
     description: '',
     duration: '',
     category: '',
-    trainingMode: '',
-    trainerName: '',
-    status: ''
+    trainingMode: ''
   };
 
   dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -195,9 +193,7 @@ export class AdminCourses implements OnInit {
       description: '',
       duration: '',
       category: '',
-      trainingMode: '',
-      trainerName: '',
-      status: 'Active'
+      trainingMode: ''
     };
 
     this.isEdit = false;
@@ -224,13 +220,7 @@ export class AdminCourses implements OnInit {
         course.category,
 
       trainingMode:
-        course.trainingMode,
-
-      trainerName:
-        course.trainerName,
-
-      status:
-        course.status
+        course.trainingMode
 
     };
 
@@ -297,9 +287,7 @@ export class AdminCourses implements OnInit {
               description: '',
               duration: '',
               category: '',
-              trainingMode: '',
-              trainerName: '',
-              status: 'Active'
+              trainingMode: ''
             };
             this.cdr.detectChanges();
           },
